@@ -17,10 +17,30 @@ func NewMysqlTodoRepository(db *gorm.DB) todo.TodoRepository {
 func (r *mysqlTodoRepository) Find(activityID interface{}) ([]models.Todo, error) {
 	todos := []models.Todo{}
 
-	tx := r.db.Debug().Preload("Activity")
+	tx := r.db.Preload("Activity")
 	if _, ok := activityID.(int); ok {
 		tx.Where("activity_id = ?", activityID)
 	}
 	tx.Find(&todos)
 	return todos, tx.Error
+}
+
+func (r *mysqlTodoRepository) FindByID(todoID int) (models.Todo, error) {
+	todo := models.Todo{}
+	tx := r.db.Preload("Activity").Where("id = ?", todoID).First(&todo)
+	return todo, tx.Error
+}
+
+func (r *mysqlTodoRepository) Create(todo models.Todo) (models.Todo, error) {
+	tx := r.db.Create(&todo)
+	return todo, tx.Error
+}
+
+func (r *mysqlTodoRepository) Update(todo models.Todo, todoID int) (models.Todo, error) {
+	tx := r.db.Where("id = ?", todoID).Updates(&todo)
+	return todo, tx.Error
+}
+
+func (r *mysqlTodoRepository) Delete(todoID int) error {
+	return r.db.Where("id = ?", todoID).Delete(&models.Todo{}).Error
 }
