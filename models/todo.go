@@ -12,15 +12,15 @@ type Todo struct {
 	Priority   string    `json:"priority" gorm:"type:varchar(30)"`
 	CreatedAt  time.Time `json:"created_at"`
 	UpdatedAt  time.Time `json:"updated_at"`
-	Activity   Activity  `gorm:"foreignkey:ActivityID"`
+	Activity   Activity  `json:"activity" gorm:"foreignkey:ActivityID"`
 }
 
-// func (t *Todo) BeforeCreate(tx *gorm.DB) error {
-// 	t.CreatedAt = time.Now()
-// 	return nil
-// }
-
-// func (t *Todo) BeforeUpdate(tx *gorm.DB) error {
-// 	t.UpdatedAt = time.Now()
-// 	return nil
-// }
+type GetTodoResponse struct {
+	ID         uint      `json:"id"`
+	ActivityID uint      `json:"activity_group_id"`
+	Title      string    `json:"title"`
+	IsActive   bool      `json:"is_active"`
+	Priority   string    `json:"priority"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
+}
