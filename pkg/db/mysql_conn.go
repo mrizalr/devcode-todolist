@@ -2,19 +2,18 @@ package db
 
 import (
 	"fmt"
-	"os"
 
+	"github.com/mrizalr/devcode-todolist/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 func NewMysqlConn() (*gorm.DB, error) {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		os.Getenv("MYSQL_USERNAME"),
-		os.Getenv("MYSQL_PASSWORD"),
-		os.Getenv("MYSQL_LOCALHOST"),
-		os.Getenv("MYSQL_PORT"),
-		os.Getenv("MYSQL_DBNAME"),
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		config.GetEnv("MYSQL_USER", "root"),
+		config.GetEnv("MYSQL_PASSWORD", ""),
+		config.GetEnv("MYSQL_HOST", "localhost"),
+		config.GetEnv("MYSQL_DBNAME", ""),
 	)
 
 	return gorm.Open(mysql.Open(dsn), &gorm.Config{})

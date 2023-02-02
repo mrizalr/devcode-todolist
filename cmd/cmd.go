@@ -1,9 +1,7 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
-	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/mrizalr/devcode-todolist/config"
@@ -27,5 +25,5 @@ func StartApplication() {
 	app := fiber.New()
 	handlers.MapHandler(app, db)
 
-	log.Fatal(app.Listen(fmt.Sprintf(":%s", os.Getenv("SERVER_PORT"))))
+	log.Fatal(app.Listen(":3030"))
 }
