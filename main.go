@@ -1,5 +1,7 @@
 package main
 
-func main() {
+import "github.com/mrizalr/devcode-todolist/cmd"
 
+func main() {
+	cmd.StartApplication()
 }
