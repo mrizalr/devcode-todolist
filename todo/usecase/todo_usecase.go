@@ -57,8 +57,12 @@ func (u *todoUsecase) GetByID(todoID int) (models.GetTodoResponse, error) {
 }
 
 func (u *todoUsecase) Create(todo models.Todo) (models.GetTodoResponse, error) {
-	if (todo == models.Todo{}) {
+	if (todo == models.Todo{} || todo.Title == "") {
 		return models.GetTodoResponse{}, fmt.Errorf("null struct")
+	}
+
+	if todo.ActivityID == 0 {
+		return models.GetTodoResponse{}, fmt.Errorf("null activity id")
 	}
 
 	todo, err := u.todoRepository.Create(todo)
@@ -78,10 +82,6 @@ func (u *todoUsecase) Create(todo models.Todo) (models.GetTodoResponse, error) {
 }
 
 func (u *todoUsecase) Update(todo models.Todo, todoID int) (models.GetTodoResponse, error) {
-	if (todo == models.Todo{}) {
-		return models.GetTodoResponse{}, fmt.Errorf("null struct")
-	}
-
 	foundTodo, err := u.todoRepository.FindByID(todoID)
 	if err != nil {
 		return models.GetTodoResponse{}, err

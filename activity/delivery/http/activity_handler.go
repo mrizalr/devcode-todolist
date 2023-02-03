@@ -98,7 +98,7 @@ func (h *activityHandler) CreateActivity() fiber.Handler {
 				return c.Status(fiber.StatusBadRequest).
 					JSON(models.Response{
 						Status:  "Bad Request",
-						Message: "Title cannot be null",
+						Message: "title cannot be null",
 					})
 			}
 
@@ -149,7 +149,7 @@ func (h *activityHandler) UpdateActivity() fiber.Handler {
 				return c.Status(fiber.StatusBadRequest).
 					JSON(models.Response{
 						Status:  "Bad Request",
-						Message: "Title cannot be null",
+						Message: "title cannot be null",
 					})
 			}
 

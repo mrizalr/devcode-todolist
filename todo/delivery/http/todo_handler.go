@@ -88,7 +88,6 @@ func (h *todoHandler) CreateTodo() fiber.Handler {
 	type CreateTodoRequest struct {
 		Title           string `json:"title"`
 		ActivityGroupID int    `json:"activity_group_id"`
-		IsActive        bool   `json:"is_active"`
 	}
 	return func(c *fiber.Ctx) error {
 		request := &CreateTodoRequest{}
@@ -105,14 +104,23 @@ func (h *todoHandler) CreateTodo() fiber.Handler {
 		todo, err := h.todoUsecase.Create(models.Todo{
 			ActivityID: uint(request.ActivityGroupID),
 			Title:      request.Title,
-			IsActive:   request.IsActive,
+			IsActive:   true,
+			Priority:   "very-high",
 		})
 		if err != nil {
 			if err.Error() == "null struct" {
 				return c.Status(fiber.StatusBadRequest).
 					JSON(models.Response{
 						Status:  "Bad Request",
-						Message: "Title cannot be null",
+						Message: "title cannot be null",
+					})
+			}
+
+			if err.Error() == "null activity id" {
+				return c.Status(fiber.StatusBadRequest).
+					JSON(models.Response{
+						Status:  "Bad Request",
+						Message: "activity_group_id cannot be null",
 					})
 			}
 
@@ -168,7 +176,7 @@ func (h *todoHandler) UpdateTodo() fiber.Handler {
 				return c.Status(fiber.StatusBadRequest).
 					JSON(models.Response{
 						Status:  "Bad Request",
-						Message: "Title cannot be null",
+						Message: "title cannot be null",
 					})
 			}
 

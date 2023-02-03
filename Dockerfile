@@ -8,4 +8,4 @@ RUN go build -o todo-api
 
 EXPOSE 3030
 
-CMD ./todo-api
+ENTRYPOINT ["/app/todo-api"]
