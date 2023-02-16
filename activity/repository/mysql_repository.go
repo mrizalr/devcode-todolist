@@ -22,7 +22,7 @@ func (r *mysqlActivityRepository) FindAll() ([]models.Activity, error) {
 
 func (r *mysqlActivityRepository) FindByID(activityID int) (models.Activity, error) {
 	activity := models.Activity{}
-	tx := r.db.Where("id = ?", activityID).First(&activity)
+	tx := r.db.Where("activity_id = ?", activityID).First(&activity)
 	return activity, tx.Error
 }
 
@@ -32,10 +32,10 @@ func (r *mysqlActivityRepository) Create(activity models.Activity) (models.Activ
 }
 
 func (r *mysqlActivityRepository) Update(activity models.Activity, activityID int) (models.Activity, error) {
-	tx := r.db.Where("id = ?", activityID).Updates(&activity)
+	tx := r.db.Where("activity_id = ?", activityID).Updates(&activity)
 	return activity, tx.Error
 }
 
 func (r *mysqlActivityRepository) Delete(activityID int) error {
-	return r.db.Where("id = ?", activityID).Delete(&models.Activity{}).Error
+	return r.db.Where("activity_id = ?", activityID).Delete(&models.Activity{}).Error
 }
